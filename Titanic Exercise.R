@@ -1,11 +1,14 @@
 #library the tidyverse, readxl
+install.packages("here")
 
 library(readxl)
 library(tidyverse)
+library(here)
 
 #then load the data
 
-titanic <- read_excel(“titanic.xlsx”)
+titanic <- read_excel('titanic.xlsx')
+here('titanic.xlsx')
 View(titanic)
 
 #  1.	Explore the data a bit
@@ -183,6 +186,11 @@ ggplot(EX, aes(x=Sex, y=Fare)) +
 install.packages("usethis")
 usethis::use_git()
 
+## Kelly Edits
+titanic %>%
+  filter(Sex=="male")
 
-  
+ggplot(titanic, aes(x=Age, y=Fare, color=Survived)) +
+  geom_point() + facet_wrap(~Sex)
+
   
