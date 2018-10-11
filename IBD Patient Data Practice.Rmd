@@ -1,0 +1,123 @@
+---
+title: "IBD Patient Data Practice"
+author: "Peter Higgins"
+date: "9/15/2018"
+output: html_document
+---
+
+# IBD Patient Growth
+
+## Setting up
+1. first open a New Project called mi_maps_2018
+2. check that there is a corresponding folder on your hard drive
+3. Save files to this folder, including "ibd_2018_tidy.xlsx"  and "mi_cty_pop.xlsx"
+4. Confirm that these files now appear under the Files tab in your RStudio project
+5. install the pacman package (see first chunk below) if you don't already have this one.
+6. Run the chunks below and follow the instructions
+7. use themes and YAML options to add style to your HTML document, including floating table of contents and numbered sections
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("pacman")  
+#Only if you don't already have pacman
+pacman::p_load(tidyverse, magrittr, rmarkdown, knitr, readxl, acs, choroplethr, choroplethrMaps, kableExtra)
+```
+
+## Data Import
+
+Use the chunk below to bring in 2018 data from the file
+"ibd_2018_tidy.xlsx" 
+
+
+```{r bring_in_data}
+# import code here
+ibd_2018  <- read_excel("ibd_2018_tidy.xlsx") 
+```
+
+
+
+# Initial Plot
+
+Make a plot and describe it here
+
+Instructions:
+It should be a line plot of the top **10** counties by IBD patients seen in 2018 at Michigan Medicine.
+x axis should include 2016-2018
+Unique color in legend for each county
+
+```{r plot1}
+# code here for line graph
+library(ggplot2)
+install.packages("forcats")
+library(forcats)
+ibd_plot <- ibd_2018 %>%
+  filter(year == "2018") %>%
+top_n(count, n=10) %>%
+arrange(desc(count))
+ggplot(ibd_2018, aes(x = county, y = count)) +
+    geom_line(aes(linetype= "dashed")) + #,color = as.factor(county))) 
+    geom_point() +
+    labs(
+      x = "Michigan counties",
+      y = "Count",
+      title = "Title",
+      subtitle = "Subtitle",
+      caption = "Caption"
+    )
+```
+
+
+# How to Table
+
+You can also make tables, for example:
+Look up some formatting options with kableExtra at:
+<https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html>
+
+```{r table1, echo=FALSE}
+mi_pop  <- read_excel("mi_cty_pop.xlsx") 
+mi_pop %>% 
+  top_n(pop, n=3) %>% 
+  arrange(desc(pop)) %>% 
+  select(county, pop) %>% 
+  kable() %>% 
+  kable_styling()
+```
+
+
+# A Second Table
+
+You can also embed tables, for example:
+use knitr::kable and kableExtra package to make a nicely formatted table of the counties with the top 20 number of IBD patients seen at Michigan Medicine in 2018, arranged in descending order.
+Use some kableExtra formatting to make it look good.
+
+```{r table2, echo=FALSE}
+install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+
+ibd_2018 %>%
+  top_n(count, n=20) %>%
+arrange(desc(count)) %>% 
+  select(county, count) %>% 
+  kable() %>% 
+  kable_styling()
+```
+
+# Challenge Graph
+
+Use your skills to
+1. Estimate number of IBD patients who are NOT coming in each of top **10** counties based on county population
+2. Use estimator of 50 IBD patients per thousand population from our neighbors in Ontario to calculate how many IBD patients there should be
+3. Line Plot the number of patients in each of top 10 counties NOT coming to UM (y axis) with year on the x axis, only 2016-18
+
+Note that you may want to use the tolower() function to make your left_join work.
+
+```{r graph2, echo=FALSE}
+# code here
+```
+
+# Use Rmarkdown formatting 
+write up your conclusions, and proposals about where to market the IBD program - which counties have the most IBD patients that are not being seen at Michigan Medicine within a reasonable distance?
+
+** remember to**
+use themes and YAML options to add style to your HTML document, including floating table of contents and numbered sections
