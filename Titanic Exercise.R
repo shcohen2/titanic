@@ -180,6 +180,9 @@ EX <- titanic2 %>%
 ggplot(EX, aes(x=Sex, y=Fare)) +
   geom_bar(stat = "identity")
 
+install.packages("usethis")
+usethis::use_git()
+
 
   
   
