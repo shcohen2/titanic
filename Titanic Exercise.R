@@ -2,10 +2,11 @@
 
 library(readxl)
 library(tidyverse)
+library(kableExtra)
 
 #then load the data
 
-titanic <- read_excel(“titanic.xlsx”)
+titanic <- read_excel('titanic.xlsx')
 View(titanic)
 
 #  1.	Explore the data a bit
