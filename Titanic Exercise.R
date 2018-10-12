@@ -185,7 +185,10 @@ ggplot(EX, aes(x=Sex, y=Fare)) +
 #usethis::use_git()
 
 #### add table
-kable(FS1) %>% 
-  kable_styling()
+FS1 %>%  
+  kable() %>% 
+  kable_styling(full_width = F) %>% 
+  column_spec(4, bold=T)
+  
   
   
