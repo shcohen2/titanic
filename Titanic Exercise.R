@@ -113,7 +113,7 @@ fare_survival <- titanic %>%
 
 FS1 <- fare_survival %>%
   group_by(fare5) %>%
-    summarize(nsurvived = sum(Survived), total=n(), survival_rate=(nsurvived/total)*100)
+    summarize(nsurvived = sum(as.numeric(Survived)), total=n(), survival_rate=(nsurvived/total)*100)
 
 ggplot(FS1, aes(x=fct_reorder(fare5, survival_rate), y=survival_rate)) +
   geom_bar(stat = "identity")
@@ -181,9 +181,11 @@ EX <- titanic2 %>%
 ggplot(EX, aes(x=Sex, y=Fare)) +
   geom_bar(stat = "identity")
 
-install.packages("usethis")
-usethis::use_git()
+#install.packages("usethis")
+#usethis::use_git()
 
-
+#### add table
+kable(FS1) %>% 
+  kable_styling()
   
   
